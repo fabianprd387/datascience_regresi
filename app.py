@@ -71,7 +71,7 @@ if st.button("Hitung Prediksi Harga", type="primary"):
     prediction = chosen_pipeline.predict(input_data)[0]
     
     val_usd = prediction * 1000
-    val_idr = val_usd * 15000
+    val_idr = val_usd * 18000
     
     st.success(f"Indeks Prediksi Harga ({selected_model}): **{prediction:.2f}**")
-    st.info(f"**Estimasi Nominal USD:** ${val_usd:,.2f} USD\n\n**Estimasi Nominal IDR:** Rp {val_idr:,.0f} (Kurs $1 = Rp 15.000)")
+    st.info(f"**Estimasi Nominal USD:** ${val_usd:,.2f} USD\n\n**Estimasi Nominal IDR:** Rp {val_idr:,.0f} (Kurs $1 = Rp 18.000)")
