@@ -3,7 +3,7 @@ import pandas as pd
 import joblib
 
 # Memuat semua model sekaligus dari satu file .pkl
-models = joblib.load('model_house_price.pkl')
+models = joblib.load('model_house_price all.pkl')
 
 st.set_page_config(page_title="Prediksi Harga Rumah Multi-Model", layout="wide")
 st.title("Aplikasi Prediksi Harga Rumah")
