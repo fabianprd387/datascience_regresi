@@ -1,15 +1,17 @@
+import os
 import streamlit as st
 import pandas as pd
 import joblib
 
-# Memuat semua model sekaligus dari satu file .pkl
-models = joblib.load('model_house_price all.pkl')
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+MODEL_PATH = os.path.join(BASE_DIR, 'model_house_price all.pkl')
+
+models = joblib.load(MODEL_PATH)
 
 st.set_page_config(page_title="Prediksi Harga Rumah Multi-Model", layout="wide")
 st.title("Aplikasi Prediksi Harga Rumah")
 st.write("Pilih algoritma regresi dan masukkan parameter properti untuk menghitung estimasi harga.")
 
-# Dropdown Pemilihan Algoritma
 selected_model = st.selectbox(
     "Pilih Algoritma Regresi:",
     options=list(models.keys())
@@ -55,18 +57,21 @@ if st.button("Hitung Prediksi Harga", type="primary"):
         'parking': parking,
         'garden': garden,
         'security': security,
-        'school': school,
-        'hospital': hospital,
-        'mall': mall,
-        'transport': transport,
+        'school_nearby': school,
+        'hospital_nearby': hospital,
+        'shopping_mall_nearby': mall,
+        'public_transport': transport,
         'crime_rate': crime_rate,
         'population_density': population_density,
         'location': location,
         'income_level': income_level
     }])
     
-    # Mengambil pipeline sesuai algoritma yang dipilih
     chosen_pipeline = models[selected_model]
     prediction = chosen_pipeline.predict(input_data)[0]
     
-    st.success(f"Hasil Prediksi Harga ({selected_model}): **{prediction:.2f}**")
+    val_usd = prediction * 1000
+    val_idr = val_usd * 15000
+    
+    st.success(f"Indeks Prediksi Harga ({selected_model}): **{prediction:.2f}**")
+    st.info(f"**Estimasi Nominal USD:** ${val_usd:,.2f} USD\n\n**Estimasi Nominal IDR:** Rp {val_idr:,.0f} (Kurs $1 = Rp 15.000)")
